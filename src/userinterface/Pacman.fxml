@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="919.0" prefWidth="1141.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.GameController">
+   <center>
+      <Pane fx:id="gamePane" onMousePressed="#onPressed" prefHeight="454.0" prefWidth="894.0" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <Pane prefHeight="454.0" prefWidth="71.0" style="-fx-background-color: dodgerblue;" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="454.0" prefWidth="77.0" style="-fx-background-color: dodgerblue;" BorderPane.alignment="CENTER" />
+   </right>
+   <top>
+      <VBox prefHeight="116.0" prefWidth="1141.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar prefHeight="27.0" prefWidth="1141.0">
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Load Game">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#LevelZero" text="Level 0" />
+                              <MenuItem mnemonicParsing="false" onAction="#LevelOne" text="Level 1" />
+                              <MenuItem mnemonicParsing="false" onAction="#LevelTwo" text="Level 2" />
+                           </items>
+                           <graphic>
+                              <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/pacman.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#SaveGame" text="Save Game">
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/floppy.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#Exit" text="Exit">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/power-symbol-off.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </MenuItem>
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Scores">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#showBestScores" text="Best Scores" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="About the game" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: dodgerblue;">
+               <children>
+                  <Label text="CATCH THE" textFill="WHITE">
+                     <font>
+                        <Font name="CrackMan-Regular" size="58.0" />
+                     </font>
+                  </Label>
+                  <Label text="PAC-MAN" textFill="#fff200">
+                     <font>
+                        <Font name="CrackMan-Regular" size="58.0" />
+                     </font>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: dodgerblue;" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="75.0" prefWidth="324.0" text="Rebounds " textFill="WHITE">
+               <font>
+                  <Font name="Karmatic Arcade" size="44.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Label prefHeight="71.0" prefWidth="13.0" text=":" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="44.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="-10.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="lbRebounds" prefHeight="71.0" prefWidth="53.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="Karmatic Arcade" size="44.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+            <HBox fx:id="boxMessage" alignment="CENTER" prefHeight="100.0" prefWidth="218.0" style="-fx-background-color: WHITE; -fx-border-color: black;">
+               <HBox.margin>
+                  <Insets left="40.0" />
+               </HBox.margin>
+               <children>
+                  <Label fx:id="lbMessage" text="MESSAGE" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <ImageView fitHeight="90.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/start.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin>
+            </ImageView>
+            <Button mnemonicParsing="false" onAction="#StartGame" prefHeight="56.0" prefWidth="207.0" style="-fx-background-color: YELLOW;" text="START" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
