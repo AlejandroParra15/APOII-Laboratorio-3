@@ -1,6 +1,0 @@
-#nivel
-0
-#r x   y espera direccion rebotes  detenido
-40 70 90 20 LEFT 0 false
-48 482 400 18 RIGHT 0 false
-38 635 340 25 DOWN 0 false
