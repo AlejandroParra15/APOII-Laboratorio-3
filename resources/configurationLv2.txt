@@ -1,0 +1,9 @@
+#nivel
+0
+#radio posx posy espera direccion rebotes
+20 70 90 10 LEFT 0 false
+40 500 350 12 RIGHT 0 false
+50 350 90 14 UP 0 false
+30 800 500 16 DOWN 0 false
+50 50 251 12 RIGHT 0 false
+60 920 165 14 UP 0 false

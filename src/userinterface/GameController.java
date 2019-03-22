@@ -36,6 +36,8 @@ public class GameController {
 	int level = 0;
 
 	boolean charged = false;
+	
+	boolean stop = false;
 
 	@FXML
 	private Pane gamePane;
@@ -62,17 +64,21 @@ public class GameController {
 
 	@FXML
 	void LoadGame() {
+		charged = false;
+		stop = true;
+		rebounds = 0;
+		gamePane.getChildren().clear();
 		pacmans = new ArrayList<PacMan>();
 		String filePath = "";
 		BufferedReader br = null;
 		FileReader fr = null;
 
 		if (level == 0) {
-			filePath = "C:/Users/David/eclipse-workspace/Laboratorio2_Parra_David/src/resources/configurationLv0.txt";
+			filePath = "resources/configurationLv0.txt";
 		} else if (level == 1) {
-			filePath = "C:/Users/David/eclipse-workspace/Laboratorio2_Parra_David/src/resources/configurationLv1.txt";
+			filePath = "resources/configurationLv1.txt";
 		} else if (level == 2)
-			filePath = "C:/Users/David/eclipse-workspace/Laboratorio2_Parra_David/src/resources/configurationLv2.txt";
+			filePath = "resources/configurationLv2.txt";
 
 		try {
 			fr = new FileReader(filePath);
@@ -120,8 +126,6 @@ public class GameController {
 	void SaveGame(ActionEvent event) {
 		String name = JOptionPane.showInputDialog("Ingrese su nombre: ");
 		int score = Integer.parseInt(lbRebounds.getText());
-		System.out.println(name);
-		System.out.println(score);
 		player = new Player(name, score);
 		bestScores.addPlayer(player);
 	}
@@ -137,6 +141,7 @@ public class GameController {
 			for (int i = 0; i < pacmans.size(); i++) {
 				gamePane.getChildren().add(pacmans.get(i).getArcPac());
 			}
+			stop = false;
 			threadOpenPacMan threadOpen = new threadOpenPacMan(this);
 			threadMovePacman movePac = new threadMovePacman(this);
 			threadColision threadColision = new threadColision(this);
@@ -172,18 +177,21 @@ public class GameController {
 
 	@FXML
 	public void onPressed(MouseEvent event) {
+		try {
+			for (int i = 0; i < pacmans.size(); i++) {
+				if (pacmans.get(i).getStop() != true) {
+					double x = pacmans.get(i).getArcPac().getLayoutX();
+					double y = pacmans.get(i).getArcPac().getLayoutY();
+					double r = pacmans.get(i).getRadius();
 
-		for (int i = 0; i < pacmans.size(); i++) {
-			if (pacmans.get(i).getStop() != true) {
-				double x = pacmans.get(i).getArcPac().getLayoutX();
-				double y = pacmans.get(i).getArcPac().getLayoutY();
-				double r = pacmans.get(i).getRadius();
-
-				if (event.getSceneX() < (x + r + 100) && event.getSceneX() > (x - r)
-						&& event.getSceneY() < (y + r + 100) && event.getSceneY() > (y - r)) {
-					pacmans.get(i).setStop(true);
+					if (event.getSceneX() < (x + r + 100) && event.getSceneX() > (x - r)
+							&& event.getSceneY() < (y + r + 100) && event.getSceneY() > (y - r)) {
+						pacmans.get(i).setStop(true);
+					}
 				}
 			}
+		} catch (RuntimeException e) {
+			System.out.println("No existe ningún pacman para atrapar aún.");
 		}
 	}
 
@@ -192,19 +200,19 @@ public class GameController {
 		if (pacmans.get(index).getStop() == false) {
 			if (pacmans.get(index).getDirection().equals(PacMan.UP)) {
 				pacmans.get(index).getArcPac().setRotate(90);
-				pacmans.get(index).getArcPac().setLayoutY(pacmans.get(index).getArcPac().getLayoutY() + 17);
+				pacmans.get(index).getArcPac().setLayoutY(pacmans.get(index).getArcPac().getLayoutY() + 18);
 			}
 			if (pacmans.get(index).getDirection().equals(PacMan.DOWN)) {
 				pacmans.get(index).getArcPac().setRotate(-90);
-				pacmans.get(index).getArcPac().setLayoutY(pacmans.get(index).getArcPac().getLayoutY() - 17);
+				pacmans.get(index).getArcPac().setLayoutY(pacmans.get(index).getArcPac().getLayoutY() - 18);
 			}
 			if (pacmans.get(index).getDirection().equals(PacMan.RIGHT)) {
 				pacmans.get(index).getArcPac().setRotate(180);
-				pacmans.get(index).getArcPac().setLayoutX(pacmans.get(index).getArcPac().getLayoutX() - 17);
+				pacmans.get(index).getArcPac().setLayoutX(pacmans.get(index).getArcPac().getLayoutX() - 18);
 			}
 			if (pacmans.get(index).getDirection().equals(PacMan.LEFT)) {
 				pacmans.get(index).getArcPac().setRotate(0);
-				pacmans.get(index).getArcPac().setLayoutX(pacmans.get(index).getArcPac().getLayoutX() + 17);
+				pacmans.get(index).getArcPac().setLayoutX(pacmans.get(index).getArcPac().getLayoutX() + 18);
 			}
 
 			if (pacmans.get(index).getArcPac().getLayoutX() > gamePane.getWidth()) {
@@ -230,7 +238,6 @@ public class GameController {
 				rebounds++;
 			}
 		}
-
 		setRebounds();
 
 	}
@@ -268,35 +275,35 @@ public class GameController {
 					if (distancia < r1 + r2) {
 						if (pacmans.get(i).getDirection().equals(PacMan.UP)) {
 							pacmans.get(i).getArcPac().setLayoutY(pacmans.get(i).getArcPac().getLayoutY()
-									- (pacmans.get(i).getArcPac().getRadiusY() + 4));
+									- (pacmans.get(i).getArcPac().getRadiusY() + 6));
 						}
 						if (pacmans.get(i).getDirection().equals(PacMan.DOWN)) {
 							pacmans.get(i).getArcPac().setLayoutY(pacmans.get(i).getArcPac().getLayoutY()
-									+ (pacmans.get(i).getArcPac().getRadiusY() + 4));
+									+ (pacmans.get(i).getArcPac().getRadiusY() + 6));
 						}
 						if (pacmans.get(i).getDirection().equals(PacMan.RIGHT)) {
 							pacmans.get(i).getArcPac().setLayoutX(pacmans.get(i).getArcPac().getLayoutX()
-									+ (pacmans.get(i).getArcPac().getRadiusX() + 4));
+									+ (pacmans.get(i).getArcPac().getRadiusX() + 6));
 						}
 						if (pacmans.get(i).getDirection().equals(PacMan.LEFT)) {
 							pacmans.get(i).getArcPac().setLayoutX(pacmans.get(i).getArcPac().getLayoutX()
-									- (pacmans.get(i).getArcPac().getRadiusX() + 4));
+									- (pacmans.get(i).getArcPac().getRadiusX() + 6));
 						}
 						if (pacmans.get(j).getDirection().equals(PacMan.UP)) {
 							pacmans.get(j).getArcPac().setLayoutY(pacmans.get(i).getArcPac().getLayoutY()
-									- (pacmans.get(i).getArcPac().getRadiusY() + 4));
+									- (pacmans.get(i).getArcPac().getRadiusY() + 6));
 						}
 						if (pacmans.get(j).getDirection().equals(PacMan.DOWN)) {
 							pacmans.get(j).getArcPac().setLayoutY(pacmans.get(i).getArcPac().getLayoutY()
-									+ (pacmans.get(i).getArcPac().getRadiusY() + 4));
+									+ (pacmans.get(i).getArcPac().getRadiusY() + 6));
 						}
 						if (pacmans.get(j).getDirection().equals(PacMan.RIGHT)) {
 							pacmans.get(j).getArcPac().setLayoutX(pacmans.get(i).getArcPac().getLayoutX()
-									+ (pacmans.get(i).getArcPac().getRadiusX() + 4));
+									+ (pacmans.get(i).getArcPac().getRadiusX() + 6));
 						}
 						if (pacmans.get(j).getDirection().equals(PacMan.LEFT)) {
 							pacmans.get(j).getArcPac().setLayoutX(pacmans.get(i).getArcPac().getLayoutX()
-									- (pacmans.get(i).getArcPac().getRadiusX() + 4));
+									- (pacmans.get(i).getArcPac().getRadiusX() + 6));
 						}
 						pacmans.get(i).setDirection(pacmans.get(i).opposite(pacmans.get(i).getDirection()));
 						pacmans.get(j).setDirection(pacmans.get(j).opposite(pacmans.get(j).getDirection()));
@@ -308,12 +315,14 @@ public class GameController {
 	}
 
 	public void setRebounds() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lbRebounds.setText(String.valueOf(rebounds));
-			}
-		});
+		if(charged != false) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					lbRebounds.setText(String.valueOf(rebounds));
+				}
+			});
+		}
 	}
 
 	public ArrayList<PacMan> getPacmans() {
@@ -336,6 +345,14 @@ public class GameController {
 	public void LevelTwo(ActionEvent event) {
 		level = 2;
 		LoadGame();
+	}
+	
+	public boolean getStop() {
+		return stop;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 
 }

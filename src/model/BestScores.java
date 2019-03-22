@@ -22,7 +22,6 @@ public class BestScores {
 	
 	public String messageScore() {
 		String msg = "";
-		System.out.println(players.size());
 		if (players.size() > 2) {
 			Collections.sort(players, new Comparator<Player>() {
 

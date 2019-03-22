@@ -13,17 +13,23 @@ public class threadMovePacman extends Thread {
 	@Override
 	public void run() {
 		int i = 0;
-		while (true) {
-			if(i<gc.getPacmans().size()) {
+		while (gc.getStop() != true) {
+			if (i < gc.getPacmans().size()) {
 				try {
 					gc.movePacman(i);
-					sleep(20);
+					if (gc.getLevel() == 0)
+						sleep(10);
+					if (gc.getLevel() == 1)
+						sleep(15);
+					if (gc.getLevel() == 2)
+						sleep(5);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				i++;
-			}else {
-				i=0;
+			} else {
+				i = 0;
 			}
 		}
 	}
